@@ -1,7 +1,8 @@
 {
   "dockerfile_lines": [],
   "graphs": {
-    "chatbot": "./chatbot.py:graph"
+    "main_agent": "./main_agent.py:graph",
+    "email_agent": "./email_agent.py:graph"
   },
   "python_version": "3.11",
   "dependencies": [

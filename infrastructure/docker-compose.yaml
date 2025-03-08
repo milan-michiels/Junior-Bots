@@ -1,31 +1,8 @@
 networks:
-  backend:
-    name: back-network
-    driver: bridge
   ai_service:
     name: ai-service-network
     driver: bridge
 services:
-  chromadb:
-    image: chromadb/chroma
-    volumes:
-      - ./chromadb:/chroma/chroma
-    environment:
-      - IS_PERSISTENT=TRUE
-      - PERSIST_DIRECTORY=/chroma/chroma
-      - ANONYMIZED_TELEMETRY=${ANONYMIZED_TELEMETRY:-TRUE}
-      - CHROMA_HOST_PORT=5000
-    ports:
-      - "5000:5000"
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:5000/api/v2/heartbeat" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-    networks:
-      - ai_service
-
   redis:
     image: redis:latest
     ports:
@@ -87,30 +64,6 @@ services:
     volumes:
       - ./rummikub/postgres/data:/var/lib/postgresql/data
       - ./init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql
-
-  chatbot-service:
-    image: milanmichiels/chatbot-container-team12:latest
-    depends_on:
-      chromadb:
-        condition: service_healthy
-      ollama:
-        condition: service_healthy
-    restart: unless-stopped
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8000/api/health/" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 150s
-    ports:
-      - "8000:8000"
-    environment:
-      - ENVIRONMENT=production
-    env_file:
-      - .env.production
-    networks:
-      - ai_service
-      - backend
 
   ollama:
     image: ollama/ollama:0.5.3
