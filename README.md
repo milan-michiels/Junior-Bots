@@ -1,187 +1,58 @@
-# Chatbot Service
 
-## Project Overview
+**Project pitch for hackathon: AI Doppelgänger – A digital extension of you**
 
-This project focuses on developing a chatbot service that answers questions about the game **Rummikub**. The chatbot is
-built using advanced techniques, including **Retrieval-Augmented Generation (RAG)**, to deliver accurate and
-context-aware responses.
+**Concept overview:**
 
-> **Retrieval Augmented Generation (RAG)** is a powerful technique that enhances language models by combining them with
-> external knowledge bases. RAG addresses a key limitation of models: reliance on fixed training datasets, which can
-> lead
-> to outdated or incomplete information. When given a query, RAG systems first search a knowledge base for relevant
-> information. The system then incorporates this retrieved information into the model's prompt. The model uses the
-> provided context to generate a response to the query. By bridging the gap between vast language models and dynamic,
-> targeted information retrieval, RAG is a powerful technique for building more capable and reliable AI systems.
-> *(Retrieval Augmented Generation (RAG) | 🦜️🔗 LangChain, n.d.)*
+In today’s fast-paced digital world, managing personal and professional communication efficiently can be a challenge. _AI Doppelgänger_ is a highly personalized AI assistant designed to mimic your communication style, preferences and decision-making patterns. The AI learns from your behaviour over time and assists in automating various tasks, giving you more time to focus on what truly matters. Currently, we have developed the email assistant functionality, with many more exciting capabilities to come!
 
-### Research and Development
+**Key features and capabilities:**
 
-The development of the chatbot involved extensive research and experimentation, which is documented in the `research`
-directory.  
-This directory is organized into two sections:
+1. **Communication mimicry:**
+    
+    - **Email assistant:** Our AI Doppelgänger can write and respond to emails in your unique tone. Whether it's professional, casual or humorous, the AI mimics your communication style to handle routine email exchanges efficiently, saving you time and effort.
+    
+    _(Note: Future developments will include text messaging and social media activity to extend this feature further, making it a one-stop solution for all your communication needs.)_
+    
+2. **Decision-making proxy:**
+    
+    - **Task delegation:** The AI can assist in managing your calendar and prioritizing tasks by learning how you usually structure your day.
+    
+    _(In the future, the AI will be able to handle decision-making for purchases, meetings and even delegation to others based on your personal preferences.)_
+    
+3. **Digital memory & context awareness:**
+    
+    - **Conversation recall:** The AI remembers past interactions and can refer to them in future conversations, offering a personalized, continuous experience.
+    
+    _(Future upgrades will allow more advanced memory capabilities, such as summarizing documents or content, based on your unique interests and patterns.)_
+    
+4. **Privacy & security controls:**
+    
+    - **Ethical boundaries & permission-based control:** You remain in control, deciding which interactions the AI can manage autonomously and when to intervene.
+    
+    _(Security features and ethical boundaries will continue to evolve to ensure the AI respects user autonomy and personal data.)_
+    
 
-- **Exploration Notebooks**: Focused on investigating different aspects of chatbot design and functionality.
-- **Improvement Notebooks**: Dedicated to optimizing the chatbot's performance and architecture.
+**The future of AI Doppelgänger:**
 
-### Technology Stack
+While our current focus is on the **email assistant**, _AI Doppelgänger_ has the potential to transform into a fully integrated personal assistant that spans multiple platforms:
 
-- **LangGraph**: The primary framework used to design and implement the chatbot.
-- **LangChain**: A backup solution for simpler deployment scenarios, ensuring flexibility if LangGraph deployment was
-  not approved.
-- Upon receiving approval from the DevOps team, the chatbot was built but sadly not deployed.
+- **Voice & video avatars:** Imagine your AI Doppelgänger appearing in virtual meetings or making voice calls on your behalf.
+- **Emotional intelligence:** An AI that adapts its tone and style based on the context and emotions of the person it's interacting with.
+- **Networking capabilities:** Collaborative AIs could work together to coordinate projects or conversations, making teamwork even more seamless.
 
-### Key Features
+**Use cases:**
 
-The chatbot incorporates several advanced techniques to enhance its capabilities:
+- **Busy professionals:** Automates routine communication and prioritizes tasks, giving you more bandwidth for high-value work.
+- **Content creators & influencers:** Engages with followers while you focus on creative work and big-picture strategies.
+- **Entrepreneurs:** Handles business inquiries, schedules meeting, and provides instant responses, keeping your operations smooth and efficient.
+- **Elderly or disabled individuals:** Helps with memory recall and manages digital interactions, offering a reliable and supportive companion.
 
-- **Routing**: Directing queries to appropriate modules or data sources.
-- **Fallback Mechanisms**: Handling exceptions and edge cases effectively.
-- **Self-Correction**: Dynamically refining responses based on intermediate evaluations.
+**Why this project?**
 
-These features are explained in the research notebooks.
+The future of personal assistants lies in personalization, and AI Doppelgänger is the first step in creating a truly unique, tailored experience. We’ve already laid the foundation with the email assistant, and the possibilities for expansion are vast. By further developing this AI, we can help people manage their time, tasks, and communications in a way that aligns with their individual style.
 
-### FastAPI Application
+**Join us in the future of AI!**
 
-To deploy the chatbot, we developed a **FastAPI** application.  
-The application, located in the `app` directory, provides two REST API endpoints for:
+We believe the AI Doppelgänger has the potential to revolutionize personal productivity and communication. By bringing your digital self to life, we are not just creating an assistant, but an extension of who you are.
 
-1. Querying the chatbot.
-2. Managing the embeddings.
-
-## Running the Project
-
-### Setting Up the Project
-
-To get started with the project, follow the instructions below depending on whether you want to run the notebooks, the
-FastAPI app locally, or in Docker.
-
-#### 1. **Running the Notebooks and Full Project**
-
-To run the notebooks and experiment with the full project, you'll need to install the required dependencies.
-
-1. Clone the repository.
-2. Navigate to the project directory.
-3. Install the required dependencies:
-
-   ```bash
-   pip install -r requirements-full-project.txt
-   ```
-
-4. You will need to install Ollama. You can find the installation instructions [here](https://ollama.com/download).
-5. Check if you have tesseract and poppler installed. These are required for the OCR functionality in the notebooks.
-6. Depending on what notebooks you want to run, you might need to install some LLMs depending on the notebook.
-   You can install the models using the following command:
-
-   ```bash
-   ollama install <model_name>
-   ```
-
-All models used in the entire project are listed below:
-
-- llama3.2:3b
-- llava-llama3
-- nomic-embed-text
-- llama3.1:8b
-- mistral:7b
-- mxbai-embed-large
-- llama3.2:3b-instruct-fp16
-
-7. You will need a `.env.research` file in the root folder that contains the same environment variables as the
-   `.env.example.research` file. This example file is the most complete and will work for the whole project.
-
-#### 2. **Running the FastAPI App Locally**
-
-If you want to run the FastAPI application locally (without Docker), follow these steps:
-
-1. Install the required dependencies:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. Create a `.env.development` file in the root folder that contains the same environment variables as the
-   `.env.example` file.
-3. Ensure you have Docker and Docker Compose installed on your system as this is required for the LangGraph service.
-
-4. You need to run the docker-compose file in the `infrastructure` directory. Don't run the chatbot-service as this will
-   start the FastAPI application. This will start the LangGraph service and all the other necessary services.
-
-    ```bash
-    docker-compose up -d
-    ```
-5. Run the FastAPI application in the root folder:
-
-On Linux/Mac:
-
-   ```bash
-   export ENVIRONMENT=development && uvicorn app.main:app --reload
-   ```
-
-On Windows (CMD):
-
-   ```bash
-   set ENVIRONMENT=development; uvicorn app.main:app --reload
-   ```
-
-This will start the FastAPI application on `http://127.0.0.1:8000`.
-
-#### 3. **Running the FastAPI App in Docker**
-
-If you prefer to run the FastAPI application in Docker, you can use the provided Docker Compose setup.
-
-1. Ensure you have Docker and Docker Compose installed on your system.
-2. Navigate to the `infrastructure` folder in the project directory.
-3. Create a `.env.production` file in the `infrastructure` folder that contains the same environment variables as the
-   `.env.example` file.
-4. Run the following command to start the FastAPI application in Docker:
-
-   ```bash
-    docker-compose up -d
-    ```
-
-This will start the FastAPI application on `http://127.0.0.1:8000`.
-
-### Endpoints
-
-At the moment, there are two endpoints available. One endpoint creates a new thread, which is essentially a new chat.
-The other endpoint sends a message to the chatbot.
-
-- **POST** `/api/chatbot/thread`
-
-  This endpoint creates a new thread. There is no request body required for this endpoint.
-
-  The endpoint returns a JSON response with the thread ID:
-
-   ```json
-   {
-     "thread_id": "9d40cf65-f00b-4bcc-8b34-cc61df6559b0"
-   }
-   ```
-- **POST** `/api/chatbot`
-
-  This endpoint sends a message to the chatbot. The request body should contain the thread ID and the message.
-
-   ```json
-   {
-     "thread_id": "9d40cf65-f00b-4bcc-8b34-cc61df6559b0",
-     "question": "What is a joker tile?"
-   }
-   ```
-
-  The endpoint will return a JSON response with the answer and thread_id:
-
-   ```json
-   {
-     "answer": "A joker tile is a tile that can be used as a substitute for any other tile in the game.",
-     "thread_id": "9d40cf65-f00b-4bcc-8b34-cc61df6559b0"
-   }
-   ```
-
-## Container layout
-
-![Containers of chatbot-service](diagrams/chart_of_containers_chatbot_service.png)
-
-## Chatbot layout
-
-![chatbot-diagram](diagrams/chatbot_diagram.png)
+_(Note: While the email assistant is our primary focus right now, the AI Doppelgänger has unlimited growth potential with more features to be developed soon!)_
