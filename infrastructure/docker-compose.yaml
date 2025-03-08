@@ -23,26 +23,19 @@ services:
       - ai_service
 
   langgraph-api:
-    image: milanmichiels/langgraph-container-team12:latest
+    image: junior_bot
     ports:
       - "8123:8123"
     restart: unless-stopped
     networks:
       - ai_service
-      - backend
     depends_on:
-      chromadb:
-        condition: service_healthy
       redis:
-        condition: service_healthy
-      chatbot-service:
         condition: service_healthy
       postgres_rummikub_db:
         condition: service_healthy
     environment:
       - PORT=8123
-    env_file:
-      - .env.production
 
   postgres_rummikub_db:
     image: postgres:15.8-alpine
@@ -60,7 +53,6 @@ services:
       - '54326:5432'
     networks:
       - ai_service
-      - backend
     volumes:
       - ./rummikub/postgres/data:/var/lib/postgresql/data
       - ./init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql
@@ -81,7 +73,5 @@ services:
       timeout: 5s
       retries: 5
     entrypoint: [ "/usr/bin/bash", "/entrypoint.sh" ]
-    env_file:
-      - .env.production
     networks:
       - ai_service

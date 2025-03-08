@@ -34,6 +34,9 @@ TOOL_MAIN_AGENT = "main_agent"
 ### LLM
 local_llm = str(os.getenv("LLM_MODEL"))
 llm = ChatOllama(model=local_llm, temperature=0.0)
+
+client=get_client("redis:// localhost:6379")
+store=RedisStore(client=client)
 #%%
 ### Tool utilities
 
@@ -170,7 +173,7 @@ main_agent = StateGraph(OverallState)
 
 main_agent.add_node("tool_utilities", tool_utilities)
 main_agent.add_node("validate_tools", validate_tools)
-main_agent.add_node("email_analyzer", email_agent.compile())
+main_agent.add_node("email_analyzer", email_agent.compile(store=store))
 main_agent.add_node("social_media_manager", lambda state: state)
 
 main_agent.set_entry_point("tool_utilities")
@@ -182,7 +185,5 @@ main_agent.add_conditional_edges("validate_tools", lambda state: invoke_tool(sta
 main_agent.add_edge("email_analyzer", END)
 main_agent.add_edge("social_media_manager", END)
 
-client=get_client("redis:// localhost:6379")
-store=RedisStore(client=client)
+
 graph = main_agent.compile(store=store)
-display(Image(graph.get_graph().draw_mermaid_png()))
