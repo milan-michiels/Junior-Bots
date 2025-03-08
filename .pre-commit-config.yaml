@@ -1,0 +1,32 @@
+default_language_version:
+  python: python3.11
+default_stages: [ pre-commit ]
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+  - repo: https://github.com/asottile/reorder-python-imports
+    rev: v3.14.0
+    hooks:
+      - id: reorder-python-imports
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.4
+    hooks:
+      - id: ruff
+        types_or: [ python,pyi ]
+      - id: ruff-format
+        types_or: [ python,pyi ]
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.9.1
+    hooks:
+    - id: nbqa-black
+    - id: nbqa-pyupgrade
+      args: ["--py37-plus"]
+    - id: nbqa-isort
+      args: ["--float-to-top"]
+  - repo: https://github.com/PyCQA/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+        args: [ "--ignore=E266, E501, W503" ]

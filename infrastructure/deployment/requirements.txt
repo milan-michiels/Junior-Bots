@@ -1,0 +1,6 @@
+langgraph
+chromadb
+langchain-chroma
+langchain-ollama
+langchain-core
+langchain-community

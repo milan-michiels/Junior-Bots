@@ -1,0 +1,57 @@
+### Create thread
+POST localhost:8000/api/chatbot/thread
+
+> {%
+client.global.set("thread_id", response.body);
+ %}
+
+### POST chat with RAG
+# @timeout 600
+POST http://localhost:8000/api/chatbot/ HTTP/1.1
+content-type: application/json
+
+{
+  "question": "What is a joker tile?",
+  "thread_id": "{{thread_id}}"
+}
+
+### GET chat history of thread
+GET http://localhost:8123/threads/aeabb4b6-f7f9-4fb9-84cf-5100a024db25/state
+
+### Create a thread
+POST http://localhost:8123/threads
+content-type: application/json
+
+{
+  "metadata": {},
+  "if_exists": "raise"
+}
+
+> {%
+client.global.set("thread_id", response.body.thread_id);
+ %}
+
+### Send a message
+
+POST http://localhost:8123/threads/{{thread_id}}/runs/wait
+content-type: application/json
+
+{
+  "assistant_id": "chatbot",
+  "input": {
+    "messages": [
+      "What is the purpose of the joker tile in Rummikub?"
+    ],
+    "max_retries": 3
+  }
+}
+
+### Call ollama model
+POST http://localhost:11434/api/generate
+content-type: application/json
+
+{
+  "model": "llama3.2",
+  "prompt": "What is the purpose of the joker tile in Rummikub?",
+  "stream": false
+}
